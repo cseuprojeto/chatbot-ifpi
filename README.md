@@ -1,7 +1,7 @@
 # Assistente Virtual da Organização Didática IFPI
 
 ## Objetivo do Projeto
-[cite_start]Desenvolver um sistema inteligente de RAG (Retrieval-Augmented Generation) para automatizar a consulta de normas acadêmicas, utilizando Deep Learning para processar e responder dúvidas sobre a Resolução Normativa Nº 253/2025 do IFPI[cite: 1132].
+* Desenvolver um sistema inteligente de RAG (Retrieval-Augmented Generation) para automatizar a consulta de normas acadêmicas, utilizando Deep Learning para processar e responder dúvidas sobre a Resolução Normativa Nº 253/2025 do IFPI[cite: 1132].
 
 ## Tecnologias Utilizadas
 * **Linguagem**: Python
