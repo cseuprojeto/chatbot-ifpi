@@ -14,7 +14,7 @@ from llama_index.core.node_parser import SentenceSplitter
 from llama_index.core.prompts import PromptTemplate
 from llama_index.readers.file import PDFReader
 
-# ====================== CONFIGURAÇÃO DA PÁGINA ======================
+# CONFIGURAÇÃO DA PÁGINA
 st.set_page_config(
     page_title="Assistente Virtual do IFPI-FLO",
     page_icon="🎓",
@@ -32,12 +32,12 @@ if not os.getenv("GROQ_API_KEY"):
     st.error("❌ Erro: Chave da API da Groq (GROQ_API_KEY) não encontrada. Verifique seu arquivo .env.")
     st.stop()
 
-# ====================== CONSTANTES ======================
+#  CONSTANTES 
 DATA_DIR = "./data"
 PERSIST_DIR = "./storage_ifpi_final"
 LLM_MODEL = "llama-3.1-8b-instant"
 
-# ====================== CONFIGURAÇÕES ======================
+# CONFIGURAÇÕES 
 @st.cache_resource(show_spinner=False)
 def configure_settings():
     Settings.llm = Groq(
@@ -59,7 +59,7 @@ def configure_settings():
 
 configure_settings()
 
-# ====================== PROMPT ATUALIZADO ======================
+#  PROMPT  
 custom_qa_prompt = PromptTemplate(
     "Você é o Assistente Virtual Oficial do IFPI, especialista na Resolução 253/2025. "
     "Sua responsabilidade é fornecer informações precisas e evitar alucinações.\n\n"
@@ -81,7 +81,7 @@ custom_qa_prompt = PromptTemplate(
     "Resposta estruturada:"
 )
 
-# ====================== CARREGAMENTO DO ÍNDICE ======================
+#  CARREGAMENTO DO ÍNDICE 
 @st.cache_resource(show_spinner="Indexando o documento com a nova estrutura vetorial...")
 def get_query_engine():
     if os.path.exists(PERSIST_DIR):
@@ -112,10 +112,10 @@ def get_query_engine():
         text_qa_template=custom_qa_prompt,
     )
 
-# ====================== INTERFACE ======================
+# INTERFACE 
 query_engine = get_query_engine()
 
-# ====================== SIDEBAR ======================
+# SIDEBAR 
 with st.sidebar:
     st.header("⚙️ Filtros da Consulta")
     
@@ -143,7 +143,7 @@ with st.sidebar:
     st.caption("Resolução Normativa Nº 253/2025 — IFPI Campus Floriano")
 
 
-# ====================== LÓGICA DE CHAT ======================
+# LÓGICA DE CHAT
 if "messages" not in st.session_state:
     st.session_state.messages = [{
         "role": "assistant",
