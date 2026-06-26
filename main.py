@@ -53,8 +53,8 @@ def configure_settings():
     
     # Aumentado para manter Artigos e Parágrafos sempre unidos no contexto
     Settings.node_parser = SentenceSplitter(
-        chunk_size=512,
-        chunk_overlap=100,
+        chunk_size=1024,
+        chunk_overlap=200,
     )
 
 configure_settings()
@@ -108,7 +108,7 @@ def get_query_engine():
     # response_mode="tree_summarize" força o modelo a processar logicamente todos os chunks antes de responder
     return index.as_query_engine(
         response_mode="tree_summarize", 
-        similarity_top_k=12, 
+        similarity_top_k=5, 
         text_qa_template=custom_qa_prompt,
     )
 
