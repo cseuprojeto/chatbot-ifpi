@@ -153,7 +153,7 @@ if "messages" not in st.session_state:
         "content": "✅ Olá! Sou o **Assistente Virtual da Organização Didática IFPI**.\n\n"
                    "Irei te ajudar a entender os termos segundo a Resolução Normativa Nº 253/2025. "
                    "Utilize o menu lateral para selecionar o seu nível de ensino e faça sua pergunta!\n\n"
-                   "> ⚠️ *Importante: Sou uma Inteligência Artificial e posso cometer erros de interpretação. Por favor, confirme as informações no documento oficial."
+                   "> ⚠️ *Importante: Sou uma Inteligência Artificial e posso cometer erros."
     }]
 
 for msg in st.session_state.messages:
