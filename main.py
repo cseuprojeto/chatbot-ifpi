@@ -30,7 +30,7 @@ def configure_settings():
         "   - Cursos Técnicos Integrados, Concomitantes ou Subsequentes são de NÍVEL MÉDIO/TÉCNICO.\n\n"
         
         "6. ATENÇÃO BÁSICA À MATEMÁTICA E COMPARAÇÕES:\n"
-        "   - 80%, 90% ou 100% SÃO MAIORES que 75%. Se o aluno tem 80% de frequência, ele ESTÁ APROVADO no critério de faltas. Jamais escreva absurdos lógicos como afirmar que um número maior é inferior a um menor.\n\n"
+        "   - 80%, 90%, 100% SÃO MAIORES que 75%. Se o aluno tem 80%, de frequência, ele ESTÁ APROVADO no critério de faltas. Jamais escreva absurdos lógicos como afirmar que um número maior é inferior a um menor.\n\n"
 
         "7. FÓRMULA DE NOTAS DO TÉCNICO SUBSEQUENTE E CONCOMITANTE (Art. 96):\n"
         "   - A nota final é uma SOMA, NUNCA UMA MÉDIA.\n"
