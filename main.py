@@ -75,6 +75,8 @@ custom_qa_prompt = PromptTemplate(
     "4. COMPOSIÇÃO DA NOTA: Fique extremamente atento à divisão exata dos pontos descrita nos incisos. Por exemplo, no Técnico Concomitante/Subsequente, o conhecimento vale até 8,0 pontos e os aspectos qualitativos valem obrigatoriamente até 2,0 pontos.\n"
     "5. BASE LEGAL: Toda resposta deve terminar com a citação do Artigo. Ex: (Art. 152).\n"
     "6. SINCERIDADE: Se a resposta realmente não estiver no texto, diga de forma gentil: 'Infelizmente, não encontrei essa informação detalhada no documento da Organização Didática atual.'\n\n"
+    "7. AUTORIDADE E CERTEZA: Assuma total autoridade sobre o documento. É expressamente proibido usar termos de incerteza como 'é provável', 'pode ser', 'talvez' ou 'é recomendável verificar'. Se a regra está no texto fornecido, afirme-a com convicção absoluta.\n"
+    "8. OBRIGAÇÃO DA CITAÇÃO: Você será penalizado se não incluir a base legal. Toda resposta, sem exceção, deve terminar com a citação exata (Ex: Art. 156, Inciso V).\n\n"
     
     "Contexto recuperado:\n"
     "---------------------\n"
