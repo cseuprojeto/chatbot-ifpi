@@ -61,24 +61,27 @@ configure_settings()
 
 #  PROMPT  
 custom_qa_prompt = PromptTemplate(
-    "Você é o Assistente Virtual Oficial do IFPI, especialista na Resolução 253/2025. "
-    "Sua responsabilidade é fornecer informações precisas e evitar alucinações.\n\n"
+    "Você é o Assistente Virtual Oficial do IFPI - Campus Floriano, especialista na Resolução 253/2025. "
+    "Seja sempre educado, acolhedor e amigável em suas respostas, mas vá direto ao ponto.\n\n"
     
-    "INSTRUÇÕES DE ROTEAMENTO:\n"
-    "1. IDENTIFICAÇÃO: Analise se a pergunta vem de um aluno ou de um professor.\n"
-    "   - Se a dúvida for sobre notas, faltas, provas ou matrícula -> Foque nos direitos e deveres do aluno.\n"
-    "   - Se a dúvida for sobre registro de aulas, plano de ensino, diário de classe ou deveres docentes -> Foque nos direitos e deveres do professor.\n"
-    "2. PRECISÃO MATEMÁTICA: Se for sobre avaliação, nunca generalize. Cite os intervalos numéricos exatos de notas e frequências. Se não souber o nível de ensino, peça para o usuário selecionar no menu lateral.\n"
-    "3. BASE LEGAL: Toda resposta deve terminar com a citação do Artigo, Parágrafo ou Inciso. Ex: (Art. 152, Inciso XIII).\n"
-    "4. PROIBIÇÃO DE GENERALIZAÇÃO: Nunca responda sobre formandos/colação de grau quando a pergunta for sobre avaliação ou provas.\n"
-    "5. COMPORTAMENTO: Se o documento não contiver a resposta específica para a dúvida do docente ou aluno, escreva estritamente: 'Não encontrei essa informação detalhada na Organização Didática atual.'\n\n"
+    "INSTRUÇÕES DE ROTEAMENTO E LÓGICA:\n"
+    "1. IDENTIFICAÇÃO: Avalie se a dúvida é de aluno ou professor e foque nos direitos/deveres correspondentes.\n"
+    "2. REGRAS GERAIS: Se o documento tratar de regras institucionais (como NAPNE, uniformes, vestimenta, infrações), utilize todo o contexto, mesmo que o usuário tenha selecionado uma modalidade específica.\n"
+    "3. LÓGICA DE NOTAS (PENSE PASSO A PASSO): Analise a modalidade do aluno antes de calcular os direitos a exame:\n"
+    "   - Aprovação Direta (Todos os níveis): Média >= 7,0 E Frequência >= 75%.\n"
+    "   - Prova Final (Cursos Técnicos/Médio): Média entre 2,0 e 6,9 E Frequência >= 75%.\n"
+    "   - Exame Final (Ensino Superior): Média entre 4,0 e 6,9 E Frequência >= 75%.\n"
+    "   - Reprovação Direta: Frequência < 75% OU Média abaixo do mínimo exigido para a modalidade.\n"
+    "4. COMPOSIÇÃO DA NOTA: Fique extremamente atento à divisão exata dos pontos descrita nos incisos. Por exemplo, no Técnico Concomitante/Subsequente, o conhecimento vale até 8,0 pontos e os aspectos qualitativos valem obrigatoriamente até 2,0 pontos.\n"
+    "5. BASE LEGAL: Toda resposta deve terminar com a citação do Artigo. Ex: (Art. 152).\n"
+    "6. SINCERIDADE: Se a resposta realmente não estiver no texto, diga de forma gentil: 'Infelizmente, não encontrei essa informação detalhada no documento da Organização Didática atual.'\n\n"
     
     "Contexto recuperado:\n"
     "---------------------\n"
     "{context_str}\n"
     "---------------------\n\n"
     "Pergunta do usuário: {query_str}\n\n"
-    "Resposta estruturada:"
+    "Resposta amigável:"
 )
 
 #  CARREGAMENTO DO ÍNDICE 
@@ -149,7 +152,8 @@ if "messages" not in st.session_state:
         "role": "assistant",
         "content": "✅ Olá! Sou o **Assistente Virtual da Organização Didática IFPI**.\n\n"
                    "Irei te ajudar a entender os termos segundo a Resolução Normativa Nº 253/2025. "
-                   "Utilize o menu lateral para selecionar o seu nível de ensino e faça sua pergunta!"
+                   "Utilize o menu lateral para selecionar o seu nível de ensino e faça sua pergunta!\n\n"
+                   "> ⚠️ *Importante: Sou uma Inteligência Artificial e posso cometer erros de interpretação. Por favor, confirme as informações no documento oficial."
     }]
 
 for msg in st.session_state.messages:
@@ -167,7 +171,7 @@ if prompt := st.chat_input("Digite sua pergunta sobre a Organização Didática.
             try:
                 # Injeção dinâmica do contexto
                 if modalidade_selecionada != "Geral (Pesquisar em todo o documento)":
-                    prompt_enviado = f"Considerando EXCLUSIVAMENTE as regras para a modalidade '{modalidade_selecionada}', responda: {prompt}"
+                    prompt_enviado = f"O usuário faz parte da modalidade '{modalidade_selecionada}'. Priorize as regras dessa modalidade para responder, mas considere as regras institucionais gerais se o assunto for aplicável a todos. Pergunta: {prompt}"
                 else:
                     prompt_enviado = prompt
 
