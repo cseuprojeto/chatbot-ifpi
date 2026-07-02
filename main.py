@@ -14,31 +14,57 @@ from llama_index.core.node_parser import SentenceSplitter
 from llama_index.core.prompts import PromptTemplate
 from llama_index.readers.file import PDFReader
 
+# CONFIGURAÇÃO DA PÁGINA
+st.set_page_config(
+    page_title="Assistente Virtual do IFPI-FLO",
+    page_icon="🎓",
+    layout="wide"
+)
+
+st.title("Assistente Virtual do IFPI-FLO 🤖")
+st.caption("Resolução Normativa Nº 253/2025 — Assistente Virtual")
+st.markdown("---")
+
+# Carrega as variáveis de ambiente (.env)
+load_dotenv()
+
+if not os.getenv("GROQ_API_KEY"):
+    st.error("❌ Erro: Chave da API da Groq (GROQ_API_KEY) não encontrada. Verifique seu arquivo .env.")
+    st.stop()
+
+#  CONSTANTES 
+DATA_DIR = "./data"
+PERSIST_DIR = "./storage_ifpi_final"
+LLM_MODEL = "llama-3.1-8b-instant"
+
 # CONFIGURAÇÕES 
 @st.cache_resource(show_spinner=False)
 def configure_settings():
-    # O System Prompt inquebrável
+    # O System Prompt é a "alma" inquebrável do assistente
     regras_sistema = (
         "Você é o Assistente Virtual Oficial do IFPI - Campus Floriano, especialista na Resolução 253/2025. "
-        "Aja com absoluta autoridade normativa. Você DEVE seguir estas regras matemáticas e lógicas estritamente:\n\n"
-        
-        "1. DICIONÁRIO DE CURSOS:\n"
+        "Seja educado, mas aja com absoluta autoridade normativa. Você DEVE seguir estas regras estritamente:\n"
+        "1. Nunca use termos de incerteza (ex: 'pode ser', 'depende', 'talvez'). Afirme com convicção baseando-se no texto.\n"
+        "2. Justifique todas as respostas detalhando o raciocínio matemático ou lógico das regras da instituição.\n"
+        "3. É OBRIGATÓRIO citar a base legal (Artigo, Parágrafo ou Inciso) no final de TODAS as respostas.\n"
+        "4. Fique atento às divisões exatas de notas e prazos (ex: 72 horas para atestados e segunda chamada, notas de Técnico vs Superior)."
+        "5. DICIONÁRIO DE CURSOS:\n"
         "   - Cursos de Tecnologia (como TADS - Análise e Desenvolvimento de Sistemas), Bacharelados e Licenciaturas são de EDUCAÇÃO SUPERIOR (Graduação). Aplique os artigos 113 a 115.\n"
         "   - Cursos Técnicos Integrados, Concomitantes ou Subsequentes são de NÍVEL MÉDIO/TÉCNICO.\n\n"
         
-        "2. ATENÇÃO BÁSICA À MATEMÁTICA E COMPARAÇÕES:\n"
-        "   - 80%, 90% ou 100% SÃO MAIORES que 75%. Se o aluno tem 80% de frequência, ele ESTÁ APROVADO no critério de faltas. Jamais escreva absurdos lógicos como afirmar que um número maior é inferior a um menor.\n\n"
+        "6. ATENÇÃO BÁSICA À MATEMÁTICA E COMPARAÇÕES:\n"
+        "   - 80%, 90%, ou 100% SÃO MAIORES que 75%. Se o aluno tem 80%, de frequência, ele ESTÁ APROVADO no critério de faltas. Jamais escreva absurdos lógicos como afirmar que um número maior é inferior a um menor.\n\n"
 
-        "3. FÓRMULA DE NOTAS DO TÉCNICO SUBSEQUENTE E CONCOMITANTE (Art. 96):\n"
+        "7. FÓRMULA DE NOTAS DO TÉCNICO SUBSEQUENTE E CONCOMITANTE (Art. 96):\n"
         "   - A nota final é uma SOMA, NUNCA UMA MÉDIA.\n"
         "   - Fórmula: Nota Final = Nota de Conhecimento (TETO OBRIGATÓRIO de 8,0) + Nota Qualitativa (TETO OBRIGATÓRIO de 2,0).\n"
         "   - Exemplo prático: Se o aluno tirar 10 na prova e 0 no qualitativo, a nota de conhecimento é reduzida para o teto de 8,0. A soma final é 8,0 + 0 = 8,0.\n\n"
         
-        "4. LÓGICA DE EXAME FINAL E PROVA FINAL:\n"
+        "8. LÓGICA DE EXAME FINAL E PROVA FINAL:\n"
         "   - Ensino Superior (TADS, Bacharelado, Licenciatura): Exige frequência >= 75%. Vai para Exame Final se a média for entre 4,0 e 6,9 (Art. 115). Menor que 4,0 reprova direto.\n"
         "   - Ensino Técnico (Integrado/Subsequente): Exige frequência >= 75%. Vai para Prova Final se a média for entre 2,0 e 6,9. Menor que 2,0 reprova direto.\n\n"
         
-        "5. CITAÇÃO: Termine toda resposta justificando o raciocínio matemático passo a passo e citando o Artigo exato usado."
+        "9. CITAÇÃO: Termine toda resposta justificando o raciocínio matemático passo a passo e citando o Artigo exato usado."
     )
 
     Settings.llm = Groq(
@@ -46,7 +72,7 @@ def configure_settings():
         api_key=os.getenv("GROQ_API_KEY"),
         temperature=0.0, 
         max_tokens=1024,
-        system_prompt=regras_sistema, 
+        system_prompt=regras_sistema, # <--- LINHA ADICIONADA AQUI
     )
     
     Settings.embed_model = HuggingFaceEmbedding(
@@ -57,8 +83,6 @@ def configure_settings():
         chunk_size=1024,
         chunk_overlap=200,
     )
-
-
 
 configure_settings()
 
@@ -73,7 +97,6 @@ custom_qa_prompt = PromptTemplate(
     "   - Prova Final (Técnico/Médio): Média entre 2,0 e 6,9 E Freq. >= 75%.\n"
     "   - Exame Final (Superior): Média entre 4,0 e 6,9 E Freq. >= 75%.\n"
     "   - Subsequente/Concomitante (Art. 96): Conhecimento vale até 8,0 pontos e aspectos qualitativos valem até 2,0 pontos.\n"
-    "5. Se a resposta não estiver no texto, diga apenas: 'Infelizmente, não encontrei essa informação detalhada na Organização Didática.'\n\n"
     "5. Se a resposta não estiver no texto, diga apenas: 'Infelizmente, não encontrei essa informação detalhada na Organização Didática.'\n\n"
     
     "Contexto recuperado:\n"
