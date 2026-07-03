@@ -75,7 +75,7 @@ def configure_settings():
 
          "7. DIFERENCIAÇÃO DE AUSÊNCIAS (PROVA vs. AFASTAMENTO LONGO):\n"
          "   - Se o usuário relatar que perdeu UMA PROVA ou AVALIAÇÃO por doença/falta, aplique EXCLUSIVAMENTE as regras de SEGUNDA CHAMADA (Art. 116): o prazo é de até 72 horas úteis após a avaliação e exige atestado médico.\n"
-         "   - É EXPRESSAMENTE PROIBIDO responder sobre 'Atendimento Domiciliar Especializado' (Art. 129 e 130) para perda de provas rotineiras. O Atendimento Domiciliar SÓ deve ser acionado se o usuário mencionar explicitamente um afastamento superior a 15 dias.\n\n"
+         
         
         "11. CITAÇÃO: Termine toda resposta citando o Artigo exato usado."
     )
