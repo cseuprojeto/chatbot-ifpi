@@ -48,12 +48,16 @@ def configure_settings():
         "2. Justifique todas as respostas detalhando o raciocínio matemático ou lógico das regras da instituição.\n"
         "3. É OBRIGATÓRIO citar a base legal (Artigo, Parágrafo ou Inciso) no final de TODAS as respostas.\n"
         "4. Fique atento às divisões exatas de notas e prazos (ex: 72 horas para atestados e segunda chamada, notas de Técnico vs Superior)."
-        "5. DICIONÁRIO DE CURSOS:\n"
-        "   - Cursos de Tecnologia (como TADS - Análise e Desenvolvimento de Sistemas), Bacharelados e Licenciaturas são de EDUCAÇÃO SUPERIOR (Graduação). Aplique os artigos 113 a 115.\n"
-        "   - Cursos Técnicos Integrados, Concomitantes ou Subsequentes são de NÍVEL MÉDIO/TÉCNICO.\n\n"
+
+        "5. DICIONÁRIO DE CURSOS E VOCABULÁRIO ESTUDANTIL:\n"
+    "   - Avalie se a dúvida é de aluno ou professor.\n"
+    "   - 'Cortar matéria' ou 'eliminar disciplina' significa APROVEITAMENTO DE ESTUDOS. Aplique EXCLUSIVAMENTE o Art. 137.\n"
+    "   - Cursos de Tecnologia (como TADS), Bacharelados e Licenciaturas são de EDUCAÇÃO SUPERIOR (Graduação).\n"
+    "   - Cursos Técnicos Integrados, Concomitantes ou Subsequentes são de NÍVEL MÉDIO/TÉCNICO.\n\n"
         
-        "6. ATENÇÃO BÁSICA À MATEMÁTICA E COMPARAÇÕES:\n"
-        "   - 80%, 90%, ou 100% SÃO MAIORES que 75%. Se o aluno tem 80%, de frequência, ele ESTÁ APROVADO no critério de faltas. Jamais escreva absurdos lógicos como afirmar que um número maior é inferior a um menor.\n\n"
+        "3. ATENÇÃO BÁSICA À MATEMÁTICA E COMPARAÇÕES:\n"
+    "   - 80%, 90%, ou 100% SÃO MAIORES que 75%. Se o aluno tem 80%, de frequência, ele ESTÁ APROVADO no critério de faltas.\n"
+    "   - NUNCA converta a porcentagem de faltas (25%) em um número absoluto de aulas (ex: 25 faltas), a menos que o usuário informe a carga horária exata da disciplina. O limite deve ser sempre respondido como '25% da carga horária prevista'.\n\n"
 
         "7. FÓRMULA DE NOTAS DO TÉCNICO SUBSEQUENTE E CONCOMITANTE (Art. 96):\n"
         "   - A nota final é uma SOMA, NUNCA UMA MÉDIA.\n"
@@ -63,8 +67,13 @@ def configure_settings():
         "8. LÓGICA DE EXAME FINAL E PROVA FINAL:\n"
         "   - Ensino Superior (TADS, Bacharelado, Licenciatura): Exige frequência >= 75%. Vai para Exame Final se a média for entre 4,0 e 6,9 (Art. 115). Menor que 4,0 reprova direto.\n"
         "   - Ensino Técnico (Integrado/Subsequente): Exige frequência >= 75%. Vai para Prova Final se a média for entre 2,0 e 6,9. Menor que 2,0 reprova direto.\n\n"
+
+        "9. BLINDAGEM CONTRA TROCA DE ARTIGOS:\n"
+         "   - É EXPRESSAMENTE PROIBIDO usar o Art. 82, 95 ou 108 para alunos do Ensino Superior. Estes artigos são exclusivos do Ensino Técnico.\n"
+         "   - PARA ENSINO SUPERIOR (TADS, Licenciaturas, etc): Aplique EXCLUSIVAMENTE o Art. 115. O aluno vai para Exame Final se a média for entre 4,0 e 6,9. Menor que 4,0 reprova direto.\n"
+         "   - PARA ENSINO TÉCNICO: Vai para Prova Final se a média for entre 2,0 e 6,9. Menor que 2,0 reprova direto.\n\n"
         
-        "9. CITAÇÃO: Termine toda resposta justificando o raciocínio matemático passo a passo e citando o Artigo exato usado."
+        "10. CITAÇÃO: Termine toda resposta citando o Artigo exato usado."
     )
 
     Settings.llm = Groq(
@@ -133,10 +142,11 @@ def get_query_engine():
 
     # response_mode="tree_summarize" força o modelo a processar logicamente todos os chunks antes de responder
     return index.as_query_engine(
-        response_mode="tree_summarize", 
-        similarity_top_k=5, 
+        response_mode="compact", 
+        similarity_top_k=3, 
         text_qa_template=custom_qa_prompt,
     )
+    
 
 # INTERFACE 
 query_engine = get_query_engine()
