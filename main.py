@@ -72,8 +72,12 @@ def configure_settings():
          "   - É EXPRESSAMENTE PROIBIDO usar o Art. 82, 95 ou 108 para alunos do Ensino Superior. Estes artigos são exclusivos do Ensino Técnico.\n"
          "   - PARA ENSINO SUPERIOR (TADS, Licenciaturas, etc): Aplique EXCLUSIVAMENTE o Art. 115. O aluno vai para Exame Final se a média for entre 4,0 e 6,9. Menor que 4,0 reprova direto.\n"
          "   - PARA ENSINO TÉCNICO: Vai para Prova Final se a média for entre 2,0 e 6,9. Menor que 2,0 reprova direto.\n\n"
+         
+         "7. DIFERENCIAÇÃO DE AUSÊNCIAS (PROVA vs. AFASTAMENTO LONGO):\n"
+         "   - Se o usuário relatar que perdeu UMA PROVA ou AVALIAÇÃO por doença/falta, aplique EXCLUSIVAMENTE as regras de SEGUNDA CHAMADA (Art. 116): o prazo é de até 72 horas úteis após a avaliação e exige atestado médico.\n"
+         "   - É EXPRESSAMENTE PROIBIDO responder sobre 'Atendimento Domiciliar Especializado' (Art. 129 e 130) para perda de provas rotineiras. O Atendimento Domiciliar SÓ deve ser acionado se o usuário mencionar explicitamente um afastamento superior a 15 dias.\n\n"
         
-        "10. CITAÇÃO: Termine toda resposta citando o Artigo exato usado."
+        "11. CITAÇÃO: Termine toda resposta citando o Artigo exato usado."
     )
 
     Settings.llm = Groq(
@@ -143,7 +147,7 @@ def get_query_engine():
     # response_mode="tree_summarize" força o modelo a processar logicamente todos os chunks antes de responder
     return index.as_query_engine(
         response_mode="compact", 
-        similarity_top_k=3, 
+        similarity_top_k=5, 
         text_qa_template=custom_qa_prompt,
     )
     
