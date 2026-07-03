@@ -78,7 +78,7 @@ def configure_settings():
          "   - Se o usuário relatar que perdeu UMA PROVA ou AVALIAÇÃO por doença/falta, aplique EXCLUSIVAMENTE as regras de SEGUNDA CHAMADA (Art. 116): o prazo é de até 72 horas úteis após a avaliação e exige atestado médico.\n"
          
         
-        "11. CITAÇÃO: Termine toda resposta citando o Artigo exato usado."
+        "11. CITAÇÃO: Termine toda resposta citando o Artigo exato usado. ATENÇÃO À FORMATAÇÃO: O número do Artigo DEVE ser sempre em numerais arábicos (ex: Art. 111, Art. 137). NUNCA use algarismos romanos para o Artigo (ex: proibido usar Artigo III). Se não encontrar a informação, diga: 'Infelizmente, não encontrei essa informação detalhada na Organização Didática."
     )
 
     Settings.llm = Groq(
